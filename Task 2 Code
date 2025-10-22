@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+
+int TowerOfHanoi(int n, char start, char middle, char goal) {
+    // base case to move disk from start to goal using middle
+    if (n == 1) {
+        cout << "Move disk 1 from " << start << " to " << middle << endl;
+        cout << "Move disk 1 from " << middle << " to " << goal << endl;
+        return 2; 
+    }
+
+    int moves = 0;
+
+    //Move n-1 disks from start to goal must pass through middle
+    moves += TowerOfHanoi(n - 1, start, middle, goal);
+
+    //Move biggest (last) diisk from start to middle
+    cout << "Move disk " << n << " from " << start << " to " << middle << endl;
+    moves++;
+
+    //Move n-1 disks back from goal to start must pass through middle
+    moves += TowerOfHanoi(n - 1, goal, middle, start);
+
+    // Move biggest disk to goal
+    cout << "Move disk " << n << " from " << middle << " to " << goal << endl;
+    moves++;
+
+    //Move n-1 disks from start to goal must pass through middle
+    moves += TowerOfHanoi(n - 1, start, middle, goal);
+
+    return moves;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of disks: ";
+    cin >> n;
+
+    int totalMoves = TowerOfHanoi(n, 'A', 'B', 'C');
+    cout << "\nTotal moves: " << totalMoves << endl;
+    cout << "Expected (3^n - 1): " << pow(3, n) - 1 << endl;
+}
+
